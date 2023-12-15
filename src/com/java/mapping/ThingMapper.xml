@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.java.dao.ThingMapper" >
+  <resultMap id="BaseResultMap" type="com.java.model.Thing" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="Name" property="name" jdbcType="VARCHAR" />
+    <result column="ThingType_ID" property="thingtypeId" jdbcType="INTEGER" />
+    <result column="ThingType2_ID" property="thingtype2Id" jdbcType="INTEGER" />
+    <result column="Price" property="price" jdbcType="INTEGER" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="Img" property="img" jdbcType="VARCHAR" />
+    <result column="color" property="color" jdbcType="VARCHAR" />
+    <result column="size" property="size" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.java.model.Thing" extends="BaseResultMap" >
+    <result column="Content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="get_where" >
+    <where>
+      <if test="name!=null and name!=''">
+        AND name like CONCAT('%',#{name,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="thingtypeId!=null and thingtypeId!=''">
+        AND ThingType_ID =#{thingtypeId,jdbcType=VARCHAR}
+      </if>
+      <if test="thingtype2Id!=null and thingtype2Id!=''">
+        AND ThingType2_ID =#{thingtype2Id,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </sql>
+  <sql id="setpage">
+    <if test="page!=null">
+      order by #{page.order,jdbcType=VARCHAR}
+      LIMIT #{page.sum,jdbcType=INTEGER}, #{page.pagesize,jdbcType=INTEGER}
+    </if>
+  </sql>
+  <select id="Get" resultMap="BaseResultMap" parameterType="com.java.model.Client">
+    select * from thing
+    <include refid="get_where" />
+    <include refid="setpage" />
+  </select>
+  <select id="GetCount"  parameterType="com.java.model.Client" resultType="java.lang.Integer">
+    select count(*)
+    from thing
+    <include refid="get_where" />
+  </select>
+
+  <select id="GetByID" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select * from thing
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="Del" parameterType="java.lang.Integer" >
+    delete from thing
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="Add" parameterType="com.java.model.Thing" >
+    insert into thing (ID, Name, ThingType_ID,
+                       ThingType2_ID, Price,
+                       Content,img,color,size,Num)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{thingtypeId,jdbcType=INTEGER},
+            #{thingtype2Id,jdbcType=INTEGER},  #{price,jdbcType=INTEGER},
+            #{content,jdbcType=LONGVARCHAR},#{img,jdbcType=VARCHAR},#{color,jdbcType=VARCHAR},#{size,jdbcType=VARCHAR},#{num})
+  </insert>
+
+  <update id="Edit" parameterType="com.java.model.Thing" >
+    update thing
+    set Name = #{name,jdbcType=VARCHAR},
+        ThingType_ID = #{thingtypeId,jdbcType=INTEGER},
+        ThingType2_ID = #{thingtype2Id,jdbcType=INTEGER},
+        Price = #{price,jdbcType=INTEGER},num=#{num},
+        Content = #{content,jdbcType=LONGVARCHAR},Img=#{img,jdbcType=VARCHAR},
+        color=#{color,jdbcType=VARCHAR},
+        size=#{size,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="EditNum" parameterType="com.java.model.Thing" >
+    update thing
+    set Num = #{num}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

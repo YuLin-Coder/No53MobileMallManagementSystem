@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.java.dao.BuyListMapper" >
+  <resultMap id="BaseResultMap" type="com.java.model.BuyList" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="Buy_ID" property="buyId" jdbcType="INTEGER" />
+    <result column="Thing_ID" property="thingId" jdbcType="INTEGER" />
+    <result column="Num" property="num" jdbcType="INTEGER" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="color" property="color" jdbcType="VARCHAR" />
+    <result column="size" property="size" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="get_where" >
+    <where>
+      <if test="buyId!=null and buyId!=''">
+	        	AND Buy_ID= #{buyId,jdbcType=INTEGER}
+      </if>
+    </where>
+  </sql>
+  <sql id="setpage">
+	<if test="page!=null">
+	    order by #{page.order,jdbcType=VARCHAR}
+	    LIMIT #{page.sum,jdbcType=INTEGER}, #{page.pagesize,jdbcType=INTEGER}
+    </if>
+</sql>
+<select id="Get" resultMap="BaseResultMap" parameterType="com.java.model.BuyList">
+  select b.*,c.address,t.color,t.size from buylist_View b
+                              left join buy bu on bu.ID= b.Buy_ID
+                              left join client c on c.id=bu.Client_ID
+                              left join thing t on t.id=b.Thing_ID
+  where Buy_ID= #{buyId,jdbcType=INTEGER}
+    </select>
+    <select id="GetCount"  parameterType="com.java.model.BuyList" resultType="java.lang.Integer">
+    select count(*) 
+    from buylist_View
+    <include refid="get_where" />
+  </select>
+  
+  <select id="GetByID" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select * from buylist
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="Del" parameterType="java.lang.Integer" >
+    delete from buylist
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="Add" parameterType="com.java.model.BuyList" >
+    insert into buylist (ID, Buy_ID,Thing_ID, num)
+    values (#{id,jdbcType=INTEGER},#{buyId,jdbcType=INTEGER}, #{thingId,jdbcType=INTEGER},#{num,jdbcType=INTEGER})
+  </insert>
+</mapper>

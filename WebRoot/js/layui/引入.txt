@@ -1,0 +1,8 @@
+<script src="css/layui/jquery-1.8.3.min.js" type="text/javascript"></script>
+  <script src="css/layui/layui.js" type="text/javascript"></script>
+  <link href="css/layui/css/layui.css" rel="stylesheet" type="text/css" />
+
+编辑器图片上传需要编号layui/lay/modules下面的layedit，把v.call(t,"img",{src:e.data.src,alt:e.data.title},a))改成
+v.call(t,"img",{src:window.document.location.pathname.substring(0, window.document.location.pathname.substr(1).indexOf('/') + 1)+"/"+e.data.src,alt:e.data.title},a))
+
+window.document.location.pathname.substring(0, window.document.location.pathname.substr(1).indexOf('/') + 1)+"/"方法是获取项目名称及根目录路径的一个方法

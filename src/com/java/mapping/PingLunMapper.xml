@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.java.dao.PingLunMapper" >
+  <resultMap id="BaseResultMap" type="com.java.model.PingLun" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="Thing_ID" property="thingId" jdbcType="INTEGER" />
+    <result column="Client_ID" property="clinetId" jdbcType="INTEGER" />
+    <result column="Title" property="title" jdbcType="VARCHAR" />
+    <result column="Intime" property="intime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.java.model.PingLun" extends="BaseResultMap" >
+    <result column="Content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+  <select id="GetByID" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select * from pinglun
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="GetByThingID" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+    select * from pinglun
+    where Thing_ID = #{jid,jdbcType=INTEGER}
+  </select>
+    <select id="GetByClientID" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+    select * from pinglun
+    where Client_ID = #{cid,jdbcType=INTEGER}
+  </select>
+  <delete id="Del" parameterType="java.lang.Integer" >
+    delete from pinglun
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="Add" parameterType="com.java.model.PingLun" >
+    insert into pinglun values (NULL, #{thingId,jdbcType=INTEGER}, #{clinetId,jdbcType=INTEGER}, 
+      #{title,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}, now()
+      )
+  </insert>
+  
+  <update id="Edit" parameterType="com.java.model.PingLun" >
+    update pinglun
+    set Thing_ID = #{thingId,jdbcType=INTEGER},
+      Client_ID = #{clinetId,jdbcType=INTEGER},
+      Title = #{title,jdbcType=VARCHAR},
+      Intime = #{intime,jdbcType=TIMESTAMP},
+      Content = #{content,jdbcType=LONGVARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

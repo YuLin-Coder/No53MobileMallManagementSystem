@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.java.dao.NewsTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.java.model.NewsType" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="Type" property="type" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, Type
+  </sql>
+  <select id="GetByID" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select * from newstype
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="Get" resultMap="BaseResultMap" >
+    select * from newstype
+  </select>
+  <delete id="Del" parameterType="java.lang.Integer" >
+    delete from newstype
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="Add" parameterType="com.java.model.NewsType" >
+    insert into newstype (ID, Type)
+    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.java.model.NewsType" >
+    insert into newstype
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="type != null" >
+        Type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.java.model.NewsType" >
+    update newstype
+    <set >
+      <if test="type != null" >
+        Type = #{type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="Edit" parameterType="com.java.model.NewsType" >
+    update newstype
+    set Type = #{type,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

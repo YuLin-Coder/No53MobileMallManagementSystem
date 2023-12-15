@@ -1,0 +1,39 @@
+table,td{ border:solid 1px #B1B2B7; border-collapse:collapse; font-size:12px; vertical-align:top}
+a,a:visited{ color:lightslategray; text-decoration:none}
+
+ul{ margin:0px; padding:0px; list-style:none}
+.menumain{ width:204px}
+.menumain div{width:204px; height:30px; background:url(../images/menu_par.png); text-align:left; font-weight:bold}
+.menumain div b{  color:#0F2965; display:block; padding-left:50px; padding-top:10px}
+.menumain ul li{ text-align:left}
+.menumain ul li a{  color:#000; display:block; padding-left:30px; padding-top:10px}
+
+#top{margin:0px auto; width:999px; height:104px; background:url(../images/top.jpg); position:relative}
+#top b{ position:absolute; font-size:20px; font-family:黑体; color:White; left:100px; top:30px}
+#topmenu{ position:absolute; bottom:-6px; right:40px; border:solid 0px red}
+#topmenu li{ width:73px; height:24px; float:left; margin:5px; text-align:center; font-size:12px; }
+#topmenu li a{ color:white; text-decoration:none; display:block; padding-top:3px; background:url(../images/pass_ico.png);  width:100px; text-align:center; background-repeat:no-repeat}
+
+#maintable{ width:999px; margin:0px auto}
+.lefttd{width:204px; text-align:center; background:#51ABCA}
+.mainrightborder{width:10px; background:#51ABCA}
+.foot{background:#51ABCA; height:50px; line-height:30px; color:White; text-align:center; width:999px; margin:0px auto}
+
+/*添加样式*/
+#addtable { width:90%; margin:10px auto}
+#addtable td {font-size: 12px; height:30px; border:solid 1px #51ABCA; vertical-align:middle}
+.left{ background:#51ABCA; width:100px;text-align:center }
+.right{ text-align:left }
+.right input,.right select,.right textarea{ margin:10px}
+
+/*列表样式*/
+#sqltable { width:90%; margin:10px auto; border:solid 1px #51ABCA}
+#sqltable td { font-size: 12px; padding: 2px; height:30px; text-align:center; vertical-align:middle; border:solid 1px #51ABCA; }
+.title td {text-align: center; background: #51ABCA; height:30px; border:solid 1px #51ABCA; border-collapse:collapse; color:White }
+.rows:hover{ background:#EAF4FD}
+
+input:focus,textarea:focus{
+    outline: 0;
+    border: 1px solid #51ABCA;
+    box-shadow: 0px 0px 10px 0px #51ABCA;
+  }

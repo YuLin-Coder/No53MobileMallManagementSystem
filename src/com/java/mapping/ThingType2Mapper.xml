@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.java.dao.ThingType2Mapper" >
+  <resultMap id="BaseResultMap" type="com.java.model.ThingType2" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="Type" property="type" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="GetByID" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select *
+    from thingtype2
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="Get" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select *
+    from thingtype2
+  </select>
+  <delete id="Del" parameterType="java.lang.Integer" >
+    delete from thingtype2
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="Add" parameterType="com.java.model.ThingType2" >
+    insert into thingtype2 (ID, Type)
+    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="Edit" parameterType="com.java.model.ThingType2" >
+    update thingtype2
+    set Type = #{type,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

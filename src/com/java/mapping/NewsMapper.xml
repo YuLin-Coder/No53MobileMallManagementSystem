@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.java.dao.NewsMapper" >
+  <resultMap id="BaseResultMap" type="com.java.model.News" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="Title" property="title" jdbcType="VARCHAR" />
+    <result column="Form" property="form" jdbcType="VARCHAR" />
+    <result column="Hot" property="hot" jdbcType="INTEGER" />
+    <result column="InTime" property="intime" jdbcType="TIMESTAMP" />
+    <result column="img" property="img" jdbcType="VARCHAR" />
+    <result column="NewsType_ID" property="newstypeId" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.java.model.News" extends="BaseResultMap" >
+    <result column="Content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, Title, Form, Hot, InTime, img, NewsType_ID
+  </sql>
+  <sql id="Blob_Column_List" >
+    Content
+  </sql>
+  <sql id="get_where" >
+    <where>
+    	<if test="title!=null and title!=''">
+	        	AND title like CONCAT('%',#{title,jdbcType=VARCHAR},'%')   
+      </if>
+      <if test="newstypeId!=null and newstypeId!=''">
+	        	AND NewsType_ID=#{newstypeId,jdbcType=INTEGER}  
+      </if>
+    </where>
+  </sql>
+  <select id="GetByID" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select * 
+    from news
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="Get" resultMap="ResultMapWithBLOBs" parameterType="com.java.model.News">
+    select * 
+    from news
+    <include refid="get_where" />
+    <if test="page!=null">
+    order by #{page.order,jdbcType=VARCHAR}
+    LIMIT #{page.sum,jdbcType=INTEGER}, #{page.pagesize,jdbcType=INTEGER}
+    </if>
+    </select>
+    <select id="GetCount"  parameterType="com.java.model.News" resultType="java.lang.Integer">
+    select count(*) 
+    from news
+    <include refid="get_where" />
+  </select>
+  <delete id="Del" parameterType="java.lang.Integer" >
+    delete from news
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="Add" parameterType="com.java.model.News" >
+    insert into news (ID, Title, Form, 
+      Hot, InTime, img, 
+      NewsType_ID, Content,Zan)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{form,jdbcType=VARCHAR}, 
+      0, now(), #{img,jdbcType=VARCHAR}, 
+      #{newstypeId,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR},0)
+  </insert>
+  <insert id="insertSelective" parameterType="com.java.model.News" >
+    insert into news
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="title != null" >
+        Title,
+      </if>
+      <if test="form != null" >
+        Form,
+      </if>
+      <if test="hot != null" >
+        Hot,
+      </if>
+      <if test="intime != null" >
+        InTime,
+      </if>
+      <if test="img != null" >
+        img,
+      </if>
+      <if test="newstypeId != null" >
+        NewsType_ID,
+      </if>
+      <if test="content != null" >
+        Content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="form != null" >
+        #{form,jdbcType=VARCHAR},
+      </if>
+      <if test="hot != null" >
+        #{hot,jdbcType=INTEGER},
+      </if>
+      <if test="intime != null" >
+        #{intime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="img != null" >
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="newstypeId != null" >
+        #{newstypeId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.java.model.News" >
+    update news
+    <set >
+      <if test="title != null" >
+        Title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="form != null" >
+        Form = #{form,jdbcType=VARCHAR},
+      </if>
+      <if test="hot != null" >
+        Hot = #{hot,jdbcType=INTEGER},
+      </if>
+      <if test="intime != null" >
+        InTime = #{intime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="img != null" >
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="newstypeId != null" >
+        NewsType_ID = #{newstypeId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        Content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="Edit" parameterType="com.java.model.News" >
+    update news
+    set Title = #{title,jdbcType=VARCHAR},
+      Form = #{form,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR},
+      NewsType_ID = #{newstypeId,jdbcType=INTEGER},
+      Content = #{content,jdbcType=LONGVARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="EditHot" parameterType="java.lang.Integer" >
+    update news
+    set hot = hot+1
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="EditZan" parameterType="java.lang.Integer" >
+    update news
+    set zan = zan+1
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
